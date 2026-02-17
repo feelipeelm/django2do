@@ -21,17 +21,17 @@ def pizzas_view(request):
         # Ojo: esto es una simplificación, no hay validación de datos
         nombre = request.POST.get('nombre')
         precio = request.POST.get('precio')
-        
+
         if not nombre or not precio:
             return JsonResponse({'error': 'Faltan nombre o precio'}, status=400)
 
         pizza = Pizza.objects.create(nombre=nombre, precio=precio)
-        
+
         # Gestionar la relación ManyToMany para los toppings
         topping_ids = request.POST.getlist('toppings')
         if topping_ids:
             pizza.toppings.set(topping_ids)
-        
+
         # Devolvemos la pizza creada
         return JsonResponse({
             'message': 'Pizza creada con éxito',
@@ -44,3 +44,5 @@ def pizzas_view(request):
         }, status=201)
 
     return JsonResponse({'error': 'Método no soportado'}, status=405)
+
+# Create your views here.
